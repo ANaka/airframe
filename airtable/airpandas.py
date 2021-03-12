@@ -234,7 +234,7 @@ class PandasAirtable(Airtable):
        
     
                             
-@pd.api.extensions.register_series_accessor('airtable')
+@pd.api.extensions.register_series_accessor('airp')
 class AirRow:
     
     def __init__(
@@ -409,7 +409,7 @@ class AirRow:
         return record
     
     
-@pd.api.extensions.register_dataframe_accessor('airtable')
+@pd.api.extensions.register_dataframe_accessor('airp')
 class AirDataFrame:
     
     def __init__(
