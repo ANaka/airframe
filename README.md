@@ -1,4 +1,7 @@
-# Airtable Python Wrapper
+Work in progress
+Pandas interoperable version of python-airtable-wrapper, work in progress
+
+<!-- # Airtable Python Wrapper
 
 [![Build Status](https://travis-ci.com/gtalarico/airtable-python-wrapper.svg?branch=master)](https://travis-ci.com/gtalarico/airtable-python-wrapper)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/airtable-python-wrapper.svg?label=pypi%20downloads)](https://pypi.org/project/airtable-python-wrapper/)
@@ -45,5 +48,5 @@ airtable.delete_by_field('Name', 'Tom')
 ```
 
 ## License
-[MIT](https://opensource.org/licenses/MIT)
+[MIT](https://opensource.org/licenses/MIT) -->
 
