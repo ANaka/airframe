@@ -858,7 +858,7 @@ class AirtableAttachment(object):
         airtable=None,
         record_id=None,
         s3_key=None,
-        s3_bucket='temp-files-66d190b4-92e2-4992-975b-0843373117aa',
+        s3_bucket=None,
         keep_old_attachments=True,
     ):
         if airtable is None:
@@ -902,3 +902,34 @@ class AirtableAttachment(object):
         with tempfile.NamedTemporaryFile() as tmp:
             figure.savefig(tmp, format=format, dpi=dpi, bbox_inches=bbox_inches, **savefig_kwargs)
             return cls(filepath=tmp.name **kwargs)
+
+
+class AuthenticatedPandasAirtable(PandasAirtable):
+    
+    def __init__(
+            self,
+            table_name,
+            base_key=None,
+            api_key=None,
+            region_name='us-west-1',
+            *args,
+            **kwargs,
+            ):
+        '''Authenticating an instance of Airtable() requires an API key to airtable
+        as well as a key identifying the base. If these are not passed as arguments to
+        the codaAirtable() constructor, it will attempt to retrieve them from AWS.
+        Successful retrieval only works if you have AWS CLI configured on your machine
+        using an account with the correct AWS permissons.
+        '''
+        self._cred = None
+        if (base_key is None) or (api_key is None):
+            self._cred = # function to get secrets goes here
+            self._cred.get_defaults()
+            
+        if base_key is None:
+            base_key = os.environ[self._cred.base_key_name]
+
+        if api_key is None:
+            api_key = os.environ[self._cred.api_key_name]
+            
+        super().__init__(table_name=table_name, base_key=base_key, api_key=api_key, *args, **kwargs)
