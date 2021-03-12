@@ -6,6 +6,10 @@ flake8
 mock
 tox-travis
 
+pandas
+boto3
+numpy
+
 sphinx
 sphinx-rtd-theme
 sphinxcontrib-napoleon
