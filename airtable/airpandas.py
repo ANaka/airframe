@@ -906,24 +906,24 @@ class AirtableAttachment(object):
 
 class AuthenticatedPandasAirtable(PandasAirtable):
     
+    
+    def retrieve_secrets(self):
+        return None  # overwrite this
+    
+    
     def __init__(
             self,
             table_name,
             base_key=None,
             api_key=None,
-            region_name='us-west-1',
             *args,
             **kwargs,
             ):
-        '''Authenticating an instance of Airtable() requires an API key to airtable
-        as well as a key identifying the base. If these are not passed as arguments to
-        the codaAirtable() constructor, it will attempt to retrieve them from AWS.
-        Successful retrieval only works if you have AWS CLI configured on your machine
-        using an account with the correct AWS permissons.
+        '''subclass me with your own methods for getting secrets 
         '''
         self._cred = None
         if (base_key is None) or (api_key is None):
-            self._cred = # function to get secrets goes here
+            self._cred = self.retrieve_secrets()
             self._cred.get_defaults()
             
         if base_key is None:
