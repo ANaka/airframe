@@ -78,7 +78,7 @@ class PandasAirtable(Airtable):
     def get(self, record_id, as_series=True):
         if as_series:
             series = airtable_record_to_Series(Airtable.get(self, record_id=record_id))
-            series.airtable.table = self
+            series.airp.table = self
             return series
         else:
             return Airtable.get(self,record_id=record_id)
@@ -88,7 +88,7 @@ class PandasAirtable(Airtable):
         records = [Airtable.get(self, record_id=record_id) for record_id in record_ids]
         if as_df:
             df = airtable_records_to_DataFrame(records)
-            df.airtable.table = self
+            df.airp.table = self
             return df
         else:
             return records
@@ -477,14 +477,14 @@ class AirDataFrame:
     
     def get_row(self, index):
         row = self.df.iloc[index]
-        row.airtable.table = self.table
-        row.airtable.primary_key = self.primary_key
+        row.airp.table = self.table
+        row.airp.primary_key = self.primary_key
         return row
  
     def _reconstruct(self):
         _df = pd.DataFrame(self._df)
-        _df.airtable.table = self.table
-        _df.airtable.primary_key = self.primary_key
+        _df.airp.table = self.table
+        _df.airp.primary_key = self.primary_key
         return _df
     
     def _prep_df(self,
@@ -521,12 +521,12 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airtable.table = airtable
+            row.airp.table = airtable
             if df.index.name == 'record_id':
-                row.airtable.record_id = row_index
+                row.airp.record_id = row_index
             else:
-                row.airtable.primary_key = primary_key
-            _rec = row.airtable.update(typecast=typecast, robust=robust)
+                row.airp.primary_key = primary_key
+            _rec = row.airp.update(typecast=typecast, robust=robust)
             records.append(_rec)
         return records
             
@@ -544,9 +544,9 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airtable.table = airtable
-            row.airtable.primary_key = primary_key
-            _rec = row.airtable.insert(typecast=typecast, robust=robust)
+            row.airp.table = airtable
+            row.airp.primary_key = primary_key
+            _rec = row.airp.insert(typecast=typecast, robust=robust)
             records.append(_rec)
         return records
     
@@ -564,12 +564,12 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airtable.table = airtable
+            row.airp.table = airtable
             if df.index.name == 'record_id':
-                row.airtable.record_id = row_index
+                row.airp.record_id = row_index
             else:
-                row.airtable.primary_key = primary_key
-            _rec = row.airtable.upsert(typecast=typecast, robust=robust)
+                row.airp.primary_key = primary_key
+            _rec = row.airp.upsert(typecast=typecast, robust=robust)
             records.append(_rec)
         return records
             
@@ -585,12 +585,12 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airtable.table = airtable
+            row.airp.table = airtable
             if df.index.name == 'record_id':
-                row.airtable.record_id = row_index
+                row.airp.record_id = row_index
             else:
-                row.airtable.primary_key = primary_key
-            _rec = row.airtable.delete()
+                row.airp.primary_key = primary_key
+            _rec = row.airp.delete()
             records.append(_rec)
         return records
     
