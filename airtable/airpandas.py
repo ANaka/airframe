@@ -78,7 +78,7 @@ class PandasAirtable(Airtable):
     def get(self, record_id, as_series=True):
         if as_series:
             series = airtable_record_to_Series(Airtable.get(self, record_id=record_id))
-            series.airp.table = self
+            series.af.table = self
             return series
         else:
             return Airtable.get(self,record_id=record_id)
@@ -88,7 +88,7 @@ class PandasAirtable(Airtable):
         records = [Airtable.get(self, record_id=record_id) for record_id in record_ids]
         if as_df:
             df = airtable_records_to_DataFrame(records)
-            df.airp.table = self
+            df.af.table = self
             return df
         else:
             return records
@@ -234,7 +234,7 @@ class PandasAirtable(Airtable):
        
     
                             
-@pd.api.extensions.register_series_accessor('airp')
+@pd.api.extensions.register_series_accessor('af')
 class AirRow:
     
     def __init__(
@@ -409,7 +409,7 @@ class AirRow:
         return record
     
     
-@pd.api.extensions.register_dataframe_accessor('airp')
+@pd.api.extensions.register_dataframe_accessor('af')
 class AirDataFrame:
     
     def __init__(
@@ -477,14 +477,14 @@ class AirDataFrame:
     
     def get_row(self, index):
         row = self.df.iloc[index]
-        row.airp.table = self.table
-        row.airp.primary_key = self.primary_key
+        row.af.table = self.table
+        row.af.primary_key = self.primary_key
         return row
  
     def _reconstruct(self):
         _df = pd.DataFrame(self._df)
-        _df.airp.table = self.table
-        _df.airp.primary_key = self.primary_key
+        _df.af.table = self.table
+        _df.af.primary_key = self.primary_key
         return _df
     
     def _prep_df(self,
@@ -521,12 +521,12 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airp.table = airtable
+            row.af.table = airtable
             if df.index.name == 'record_id':
-                row.airp.record_id = row_index
+                row.af.record_id = row_index
             else:
-                row.airp.primary_key = primary_key
-            _rec = row.airp.update(typecast=typecast, robust=robust)
+                row.af.primary_key = primary_key
+            _rec = row.af.update(typecast=typecast, robust=robust)
             records.append(_rec)
         return records
             
@@ -544,9 +544,9 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airp.table = airtable
-            row.airp.primary_key = primary_key
-            _rec = row.airp.insert(typecast=typecast, robust=robust)
+            row.af.table = airtable
+            row.af.primary_key = primary_key
+            _rec = row.af.insert(typecast=typecast, robust=robust)
             records.append(_rec)
         return records
     
@@ -564,12 +564,12 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airp.table = airtable
+            row.af.table = airtable
             if df.index.name == 'record_id':
-                row.airp.record_id = row_index
+                row.af.record_id = row_index
             else:
-                row.airp.primary_key = primary_key
-            _rec = row.airp.upsert(typecast=typecast, robust=robust)
+                row.af.primary_key = primary_key
+            _rec = row.af.upsert(typecast=typecast, robust=robust)
             records.append(_rec)
         return records
             
@@ -585,12 +585,12 @@ class AirDataFrame:
         
         records = []
         for row_index, row in df.iterrows():
-            row.airp.table = airtable
+            row.af.table = airtable
             if df.index.name == 'record_id':
-                row.airp.record_id = row_index
+                row.af.record_id = row_index
             else:
-                row.airp.primary_key = primary_key
-            _rec = row.airp.delete()
+                row.af.primary_key = primary_key
+            _rec = row.af.delete()
             records.append(_rec)
         return records
     
